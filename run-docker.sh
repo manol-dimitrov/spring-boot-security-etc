@@ -1,0 +1,1 @@
+#!/usr/bin/env bashmvn clean package docker:buildSTATUS=$?if [ ${STATUS} -eq 0 ]; then    echo "Build successful"else    echo "Build failed"ficd src/main/dockerdocker-compse up

@@ -1,0 +1,20 @@
+zamrad-api:
+  image: zamrad/zamrad-api
+  links:
+    - dev-mysql:mysql
+  restart: always
+  ports:
+    - 8080:8080
+
+dev-mysql:
+  image: mysql:latest
+  environment:
+    - MYSQL_ROOT_PASSWORD=password
+    - MYSQL_DATABASE=zamrad_dev
+    - MYSQL_USER=root
+    - MYSQL_PASSWORD=password
+    - MYSQL_PORT_3306_TCP=3306
+  restart: unless-stopped
+  ports:
+       - "3306:3306"
+

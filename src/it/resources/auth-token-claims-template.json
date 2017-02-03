@@ -1,0 +1,13 @@
+{
+  "name": "Manol Dimitrov",
+  "email": "manoldimitrov@yahoo.com",
+  "email_verified": true,
+  "roles": [
+    "ROLE_ARTIST"
+  ],
+  "iss": "https://zamrad.eu.auth0.com/",
+  "sub": "facebook|1392995950728274",
+  "aud": "CK33UrY612ano10onCbbxJm0fPxGIA76",
+  "exp": 1476001465,
+  "iat": 1475965465
+}

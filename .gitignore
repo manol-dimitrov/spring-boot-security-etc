@@ -1,0 +1,12 @@
+target/
+.project
+.classpath
+.settings/
+.idea/
+*.iml
+.DS_Store
+zamrad-api.log
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

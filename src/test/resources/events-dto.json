@@ -1,0 +1,14 @@
+{
+  "address": "Shad Thames",
+  "date": "08-09-2016",
+  "description": "Amazing event",
+  "new_event_slot": {
+    "start_time": "19:00",
+    "end_time": "23:00",
+    "slot_fee": "100",
+    "genre": "Rock",
+    "artist_type": "Test"
+  },
+  "title": "Test event",
+  "type": "Venue"
+}

@@ -1,0 +1,63 @@
+{
+  "name": "Manol Dimitrov",
+  "email": "manoldimitrov@yahoo.com",
+  "given_name": "Manol",
+  "family_name": "Dimitrov",
+  "gender": "male",
+  "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/c5.0.50.50/p50x50/10565065_878759318818609_2301289524095556788_n.jpg?oh=abb08de4e38d745fbab738de73466c04&oe=58A16F0E",
+  "picture_large": "https://scontent.xx.fbcdn.net/t31.0-1/10514314_878759318818609_2301289524095556788_o.jpg",
+  "age_range": {
+    "min": 21
+  },
+  "context": {
+    "mutual_likes": {
+      "data": [],
+      "summary": {
+        "total_count": 100
+      }
+    },
+    "id": "dXNlcl9jb250ZAXh0OgGQZAVnD2ap1eCM6xww8YHgXySnypN6ySq1qZCQIIafP5FTep9LZBR3rDuJGS9tvr9uT3fFhYnyX0j0CHYMKagO6a1FFcBZCJA0RXZCXZBFxvlit9J3sZD"
+  },
+  "cover": {
+    "id": "891699654191242",
+    "offset_y": 73,
+    "source": "https://scontent.xx.fbcdn.net/t31.0-8/s720x720/10628668_891699654191242_5671359297983544928_o.jpg"
+  },
+  "devices": [
+    {
+      "os": "Android"
+    }
+  ],
+  "updated_time": "2016-03-02T16:11:38+0000",
+  "installed": true,
+  "is_verified": false,
+  "link": "https://www.facebook.com/app_scoped_user_id/1392995950728274/",
+  "locale": "en_GB",
+  "name_format": "{first} {last}",
+  "timezone": 1,
+  "third_party_id": "woqdXQ7ZzWBMKNG0RECKi0qicGU",
+  "verified": true,
+  "nickname": "manoldimitrov",
+  "app_metadata": {
+    "roles": [
+      "ROLE_ARTIST"
+    ]
+  },
+  "roles": [
+    "ROLE_ARTIST"
+  ],
+  "email_verified": true,
+  "clientID": "haWbnnJzkeAyb61E4ToCj322nDOde4Ty",
+  "updated_at": "2016-10-07T19:15:53.909Z",
+  "user_id": "facebook|1392995950728274",
+  "identities": [
+    {
+      "provider": "facebook",
+      "user_id": "1392995950728274",
+      "connection": "facebook",
+      "isSocial": true
+    }
+  ],
+  "created_at": "2016-10-07T18:26:08.278Z",
+  "sub": "facebook|1392995950728274"
+}
