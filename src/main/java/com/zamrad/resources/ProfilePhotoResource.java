@@ -116,6 +116,10 @@ public class ProfilePhotoResource {
         return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
     }
 
+    private void uploadPhotos(){
+
+    }
+
     private ResponseEntity<?> uploadPhoto(MultipartFile photo, Principal principal) {
         final Long size = photo.getSize();
         final String contentType = photo.getContentType();
