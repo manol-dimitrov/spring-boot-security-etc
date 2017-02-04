@@ -24,6 +24,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import static java.util.stream.Collectors.toList;
 import static org.apache.http.HttpStatus.SC_REQUEST_TOO_LONG;
 import static org.apache.http.HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
@@ -94,13 +95,13 @@ public class ProfilePhotoResource {
         return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
     }
 
-    @ApiOperation(value = "Upload showcase photos.")
+    @ApiOperation(value = "Upload photos to profile showcase.")
     @ApiImplicitParams({
             @ApiImplicitParam(required = true, name = "Authorization", value = "Bearer token", dataType = "string", paramType = "header")})
     @ApiResponses({
-            @ApiResponse(code = 201, message = "New photo asset successfully uploaded."),
+            @ApiResponse(code = 201, message = "New photo assets successfully uploaded."),
             @ApiResponse(code = 400, message = "Bad request (photo unreadable using indicated media type)."),
-            @ApiResponse(code = 413, message = "Uploaded photo content is too large."),
+            @ApiResponse(code = 413, message = "Photo is too large."),
             @ApiResponse(code = 415, message = "Content-Type is not a supported image media type."),
             @ApiResponse(code = 500, message = "Internal error reading or writing image asset."),
     })
@@ -110,41 +111,25 @@ public class ProfilePhotoResource {
             produces = APPLICATION_JSON_VALUE,
             consumes = {MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> uploadShowcasePhotos(@RequestPart MultipartFile[] photos, @ApiIgnore final Principal principal) {
-        Arrays.stream(photos).map(photo -> {
-            return uploadPhoto(photo, principal);
-        });
+        if (photos.length > 10) {
+            return ResponseEntity.status(SC_REQUEST_TOO_LONG).build();
+        }
+
+        final List<Image> uploadedImages = Arrays.stream(photos)
+                .map(photo -> uploadPhoto(photo, principal))
+                .filter(Optional::isPresent)
+                .map(Optional::get).collect(toList());
+
         return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
     }
 
-    private void uploadPhotos(){
-
-    }
-
-    private ResponseEntity<?> uploadPhoto(MultipartFile photo, Principal principal) {
+    private Optional<Image> uploadPhoto(MultipartFile photo, Principal principal) {
         final Long size = photo.getSize();
         final String contentType = photo.getContentType();
 
-        if (size > MAXIMUM_UPLOAD_CONTENT_LENGTH) {
-            return ResponseEntity.status(SC_REQUEST_TOO_LONG).build();
-        }
-        if (!isAcceptableMediaType(contentType)) {
-            return ResponseEntity.status(SC_UNSUPPORTED_MEDIA_TYPE).build();
-        }
-
         final Optional<Profile> profile = getProfile(principal);
         final List<Image> images = profilePhotoService.setNewProfilePhoto(photo, profile.get());
-        Optional<Image> originalImage = findOriginalImage(images);
-
-
-        final Image image;
-        if (originalImage.isPresent()) {
-            image = originalImage.get();
-            return ResponseEntity.created(URI.create(image.getUrl()))
-                    .contentType(APPLICATION_JSON_UTF8)
-                    .body(images);
-        }
-
-        return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
+        return findOriginalImage(images);
     }
 
     private Optional<Image> findOriginalImage(List<Image> images) {
