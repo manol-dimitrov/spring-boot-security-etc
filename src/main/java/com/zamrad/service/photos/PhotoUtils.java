@@ -1,6 +1,7 @@
 package com.zamrad.service.photos;
 
 import com.amazonaws.util.IOUtils;
+import com.zamrad.dto.Image;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -11,10 +12,13 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 public class PhotoUtils {
     private static final int MAXIMUM_UPLOAD_CONTENT_LENGTH = 5_000_000;
-    private static final int MAXIMUM_NUMBER_OF_IMAGES = 10;
+    private static final int MAXIMUM_NUMBER_OF_IMAGES = 6;
+    private static final Predicate<Image> IS_ORIGINAL_IMAGE = Image::isOriginal;
 
     static List<String> getImageFormats(List<InputStream> originalInputStreams, List<InputStream> newInputStreams) {
         List<String> imageFormats = new ArrayList<>();
@@ -82,5 +86,14 @@ public class PhotoUtils {
         } catch (IOException ex) {
             throw new RuntimeException("Cannot create image input stream cache: " + ex.getMessage());
         }
+    }
+
+    public static Optional<Image> findOriginalImage(List<Image> images) {
+        final Image originalImage = images.stream()
+                .filter(IS_ORIGINAL_IMAGE)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("No original image was generated."));
+
+        return Optional.ofNullable(originalImage);
     }
 }

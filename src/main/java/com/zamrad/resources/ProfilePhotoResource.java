@@ -22,9 +22,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Predicate;
 
-import static java.util.stream.Collectors.toList;
+import static com.zamrad.service.photos.PhotoUtils.findOriginalImage;
 import static org.apache.http.HttpStatus.SC_REQUEST_TOO_LONG;
 import static org.apache.http.HttpStatus.SC_UNSUPPORTED_MEDIA_TYPE;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
@@ -39,7 +38,7 @@ public class ProfilePhotoResource {
     private final static Logger LOGGER = LoggerFactory.getLogger(ProfilePhotoResource.class);
 
     private static final int MAXIMUM_UPLOAD_CONTENT_LENGTH = 4_194_304;
-    private static final Predicate<Image> IS_ORIGINAL_IMAGE = Image::isOriginal;
+
 
     @Autowired
     private ProfilePhotoService profilePhotoService;
@@ -111,34 +110,19 @@ public class ProfilePhotoResource {
             produces = APPLICATION_JSON_VALUE,
             consumes = {MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> uploadShowcasePhotos(@RequestPart MultipartFile[] photos, @ApiIgnore final Principal principal) {
-        if (photos.length > 10) {
+        if (photos.length > 6) {
             return ResponseEntity.status(SC_REQUEST_TOO_LONG).build();
         }
 
-        final List<Image> uploadedImages = Arrays.stream(photos)
-                .map(photo -> uploadPhoto(photo, principal))
-                .filter(Optional::isPresent)
-                .map(Optional::get).collect(toList());
+        final Optional<Profile> profile = getProfile(principal);
+
+        if (profile.isPresent()) {
+            profilePhotoService.createShowcase(photos, principal);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
 
         return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
-    }
-
-    private Optional<Image> uploadPhoto(MultipartFile photo, Principal principal) {
-        final Long size = photo.getSize();
-        final String contentType = photo.getContentType();
-
-        final Optional<Profile> profile = getProfile(principal);
-        final List<Image> images = profilePhotoService.setNewProfilePhoto(photo, profile.get());
-        return findOriginalImage(images);
-    }
-
-    private Optional<Image> findOriginalImage(List<Image> images) {
-        final Image originalImage = images.stream()
-                .filter(IS_ORIGINAL_IMAGE)
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("No original image was generated."));
-
-        return Optional.ofNullable(originalImage);
     }
 
     private boolean isAcceptableMediaType(String contentType) {
