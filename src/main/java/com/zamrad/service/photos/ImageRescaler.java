@@ -1,7 +1,6 @@
 package com.zamrad.service.photos;
 
 import org.imgscalr.Scalr;
-import org.springframework.stereotype.*;
 import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
@@ -30,8 +29,10 @@ public class ImageRescaler {
             for (Target target : targets) {
                 switch (target.resolution) {
                     case PROFILE_THUMBNAIL:
-                        rescaleToProfileThumbnail(srcImage, target.dst, 375, 272);
+                        rescale(srcImage, target.dst, 375, 272);
                         break;
+                    case ARTIST_SQUARE_THUMBNAIL:
+                        rescale(srcImage, target.dst, 99, 99);
                     default:
                         throw new IllegalArgumentException("Unable to rescale image to: " + target.resolution.name());
                 }
@@ -41,7 +42,7 @@ public class ImageRescaler {
         }
     }
 
-    private void rescaleToProfileThumbnail(BufferedImage srcImage, OutputStream dst, int width, int height) throws IOException {
+    private void rescale(BufferedImage srcImage, OutputStream dst, int width, int height) throws IOException {
         BufferedImage croppedSrcImage = null;
         BufferedImage dstImage = null;
         try {
