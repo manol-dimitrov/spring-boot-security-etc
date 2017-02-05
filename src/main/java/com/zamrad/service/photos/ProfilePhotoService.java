@@ -5,7 +5,6 @@ import com.google.common.net.MediaType;
 import com.zamrad.domain.Profile;
 import com.zamrad.dto.Image;
 import com.zamrad.repository.ProfileRepository;
-import com.zamrad.service.artist.ProfileService;
 import com.zamrad.service.fileuploader.PhotoUploader;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -17,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.URL;
-import java.security.Principal;
 import java.util.*;
 import java.util.function.Function;
 
@@ -69,12 +67,12 @@ public class ProfilePhotoService {
         }
     }
 
-    public void createShowcase(MultipartFile[] photos, Principal principal) {
+    /**
+     * TODO: Creates an artist showcase.
+     * @param photos
+     */
+    public void createShowcase(MultipartFile[] photos) {
 
-    }
-
-    private void uploadAllPhotos(@RequestPart MultipartFile[] photos) {
-        final List<List<Image>> images = Arrays.stream(photos).map(this::uploadOriginalPhoto).collect(toList());
     }
 
     /**
@@ -82,6 +80,10 @@ public class ProfilePhotoService {
      */
     public void updateShowcase() {
 
+    }
+
+    private void uploadAllPhotos(@RequestPart MultipartFile[] photos) {
+        final List<List<Image>> images = Arrays.stream(photos).map(this::uploadOriginalPhoto).collect(toList());
     }
 
     private List<Image> getFinalImages(URL originalImageUrl, MediaType contentType, String fileName) {
