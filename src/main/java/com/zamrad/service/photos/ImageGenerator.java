@@ -7,6 +7,7 @@ import com.zamrad.service.fileuploader.PhotoUploader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -17,31 +18,26 @@ import java.util.concurrent.TimeUnit;
 
 import static com.auth0.jwt.internal.org.apache.commons.lang3.StringUtils.substringBeforeLast;
 
+@Component
 public class ImageGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageGenerator.class);
 
-    @Autowired
     private final ImageRescaler imageScaler;
+    private final PhotoUploader photoUploader;
 
     @Autowired
-    private final PhotoUploader photoUploader;
-    private final MediaType mediaType;
-    private String originalImagePath;
-
-    public ImageGenerator(ImageRescaler imageScaler, PhotoUploader photoUploader, String originalImagePath, MediaType mediaType) {
+    public ImageGenerator(ImageRescaler imageScaler, PhotoUploader photoUploader) {
         this.imageScaler = imageScaler;
         this.photoUploader = photoUploader;
-        this.originalImagePath = originalImagePath;
-        this.mediaType = mediaType;
     }
 
-    public Map<ImageResolution, String> run() throws Exception {
+    public Map<ImageResolution, String> run(MediaType mediaType, String fileName) throws Exception {
         Stopwatch rescaleStopwatch = Stopwatch.createUnstarted();
         Stopwatch uploadStopwatch = Stopwatch.createUnstarted();
 
         ByteArrayOutputStream thumbnailPhotoOut = new ByteArrayOutputStream();
 
-        try (InputStream src = photoUploader.get(originalImagePath);
+        try (InputStream src = photoUploader.get(fileName);
              OutputStream thumbnailPhotoOutRef = thumbnailPhotoOut) {
 
             ImageRescaler.Target thumbnailPhotoTarget = new ImageRescaler.Target(ImageResolution.PROFILE_THUMBNAIL, thumbnailPhotoOutRef);
@@ -51,21 +47,21 @@ public class ImageGenerator {
             rescaleStopwatch.stop();
         }
 
-        String unqualifiedAssetPath = substringBeforeLast(originalImagePath, ".");
-        String name = unqualifiedAssetPath + "-thumbnail.jpg";
+        String unqualifiedAssetPath = substringBeforeLast(fileName, ".");
+        String thumbnailName = unqualifiedAssetPath + "-thumbnail.jpg";
 
         uploadStopwatch.start();
 
         final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(thumbnailPhotoOut.toByteArray());
-        photoUploader.upload(byteArrayInputStream, name, mediaType.toString(), (long) thumbnailPhotoOut.toByteArray().length);
+        photoUploader.upload(byteArrayInputStream, thumbnailName, mediaType.toString(), (long) thumbnailPhotoOut.toByteArray().length);
 
         uploadStopwatch.stop();
 
-        LOGGER.info("Elapsed rescale: {}ms, upload rescaled: {}ms", rescaleStopwatch.elapsed(TimeUnit.MILLISECONDS), uploadStopwatch.elapsed(TimeUnit.MILLISECONDS));
+        LOGGER.info("Rescaling took: {}ms, uploading rescaled image took: {}ms", rescaleStopwatch.elapsed(TimeUnit.MILLISECONDS), uploadStopwatch.elapsed(TimeUnit.MILLISECONDS));
 
         return ImmutableMap.<ImageResolution, String>builder()
-                .put(ImageResolution.ORIGINAL, photoUploader.get(originalImagePath))
-                .put(ImageResolution.PROFILE_THUMBNAIL, fileStoreManager.getImageUrl(name))
+                .put(ImageResolution.ORIGINAL, photoUploader.getImageUrl(fileName))
+                .put(ImageResolution.PROFILE_THUMBNAIL, photoUploader.getImageUrl(thumbnailName))
                 .build();
     }
 }

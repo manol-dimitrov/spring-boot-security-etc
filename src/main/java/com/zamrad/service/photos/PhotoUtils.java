@@ -1,7 +1,10 @@
 package com.zamrad.service.photos;
 
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.util.IOUtils;
+import com.google.common.net.MediaType;
 import com.zamrad.dto.Image;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -95,5 +98,34 @@ public class PhotoUtils {
                 .orElseThrow(() -> new IllegalStateException("No original image was generated."));
 
         return Optional.ofNullable(originalImage);
+    }
+
+    public static ObjectMetadata createMetadata(String contentType, Long contentLength) {
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(contentLength);
+        objectMetadata.setContentType(contentType);
+        return objectMetadata;
+    }
+
+    public static String createFileName(byte[] image, MediaType mediaType) {
+        String filename = DigestUtils.shaHex(image);
+        return String.format("%s/%s/%s.%s",
+                filename.substring(0, 2),
+                filename.substring(2, 4),
+                filename,
+                getExtensionForMediaType(mediaType));
+    }
+
+    private static String getExtensionForMediaType(MediaType mediaType) {
+        if (mediaType == MediaType.JPEG) {
+            return "jpg";
+        }
+        if (mediaType == MediaType.PNG) {
+            return "png";
+        }
+        if (mediaType == MediaType.GIF) {
+            return "gif";
+        }
+        return "octets";
     }
 }

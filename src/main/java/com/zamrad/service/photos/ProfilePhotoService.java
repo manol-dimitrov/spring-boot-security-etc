@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.IOException;
 import java.net.URL;
@@ -19,7 +18,6 @@ import java.security.Principal;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -29,12 +27,14 @@ public class ProfilePhotoService {
     private final static Logger LOGGER = LoggerFactory.getLogger(ProfilePhotoService.class);
 
     private final PhotoUploader photoUploader;
+    private final ImageGenerator imageGenerator;
     private final ProfileRepository profileRepository;
 
     @Autowired
-    public ProfilePhotoService(PhotoUploader photoUploader, ProfileRepository profileRepository, ProfileService profileService) {
+    public ProfilePhotoService(PhotoUploader photoUploader, ProfileRepository profileRepository, ProfileService profileService, ImageGenerator imageGenerator) {
         this.photoUploader = photoUploader;
         this.profileRepository = profileRepository;
+        this.imageGenerator = imageGenerator;
     }
 
     public List<Image> setNewProfilePhoto(MultipartFile photo, Profile profile) {
@@ -56,6 +56,7 @@ public class ProfilePhotoService {
                 .height(375)
                 .width(272)
                 .url(originalImageUrl.toString()).build();
+
         return Collections.singletonList(image);
     }
 
@@ -63,14 +64,17 @@ public class ProfilePhotoService {
 
     }
 
-    private void uploadAllPhotos(@RequestPart MultipartFile[] photos, @ApiIgnore Principal principal) {
-        final List<Image> uploadedImages = Arrays.stream(photos)
-                .map(photo -> uploadPhoto(photo, principal))
-                .filter(Optional::isPresent)
-                .map(Optional::get).collect(toList());
+    private void uploadAllPhotos(@RequestPart MultipartFile[] photos) {
+        final List<List<Image>> images = Arrays.stream(photos).map(this::uploadOriginalPhoto).collect(toList());
     }
 
-    private List<Image> uploadPhoto(MultipartFile photo, Principal principal) {
+    /**
+     * Uploads single photo.
+     *
+     * @param photo original photo
+     * @return list of rescaled images + original
+     */
+    private List<Image> uploadOriginalPhoto(MultipartFile photo) {
         final Long size = photo.getSize();
         final String contentType = photo.getContentType();
 
