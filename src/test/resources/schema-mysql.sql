@@ -61,6 +61,11 @@
         primary key (id)
     );
 
+    CREATE TABLE zamrad_dev.profile_showcase (
+        id BINARY(16) NOT NULL,
+        PRIMARY KEY (id)
+    );
+
     create table zamrad_dev.profiles (
         id BINARY(16) not null,
         address varchar(255),
@@ -89,6 +94,13 @@
         title varchar(255),
         profile_id BINARY(16),
         primary key (id)
+    );
+
+    CREATE TABLE zamrad_dev.showcase_image (
+        id          BINARY(16) NOT NULL,
+        image_url   VARCHAR(255),
+        showcase_id BINARY(16),
+        PRIMARY KEY (id)
     );
 
     alter table zamrad_dev.artist_genres 
@@ -130,3 +142,8 @@
         add constraint FK_5bqt2a266wqtsf7lf31flr7ce 
         foreign key (profile_id) 
         references zamrad_dev.profiles (id);
+
+    ALTER TABLE zamrad_dev.showcase_image
+        ADD CONSTRAINT FK_axlxbxbujmiut7vihpgwqcwer
+    FOREIGN KEY (showcase_id)
+    REFERENCES zamrad_dev.profile_showcase (id);

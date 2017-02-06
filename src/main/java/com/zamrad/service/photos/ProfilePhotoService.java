@@ -84,7 +84,7 @@ public class ProfilePhotoService {
      * Uploads original phot photo.
      *
      * @param photo original photo
-     * @return list of rescaled images + original
+     * @return list of rescaled profileShowcaseImages + original
      */
     private List<Image> uploadSingleOriginalPhoto(MultipartFile photo) {
         try {
@@ -110,10 +110,10 @@ public class ProfilePhotoService {
     }
 
     /**
-     * Combines original photo and rescaled images.
+     * Combines original photo and rescaled profileShowcaseImages.
      * @param originalImageUrl S3 url of original photo.
-     * @param rescaledImages list of rescaled images.
-     * @return all images
+     * @param rescaledImages list of rescaled profileShowcaseImages.
+     * @return all profileShowcaseImages
      */
     private List<Image> getAll(URL originalImageUrl, final List<Image> rescaledImages) {
         final Image image = Image.builder().original(true).url(originalImageUrl.toString()).build();
@@ -124,9 +124,9 @@ public class ProfilePhotoService {
     }
 
     /**
-     * Fetches list of rescaled images.
+     * Fetches list of rescaled profileShowcaseImages.
      * @param rescaledImages map of rescaled image type and url.
-     * @return list of all relevant rescaled images.
+     * @return list of all relevant rescaled profileShowcaseImages.
      */
     private List<Image> getRescaledImages(Map<ImageResolution, String> rescaledImages) {
         List<Image> rescaled = new ArrayList<>();

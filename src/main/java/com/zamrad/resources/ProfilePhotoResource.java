@@ -125,6 +125,8 @@ public class ProfilePhotoResource {
         return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
     }
 
+    //me/showcase/actions/delete_photo?photoid=xxxx
+
     private boolean isAcceptableMediaType(String contentType) {
         if (contentType != null) {
             try {
