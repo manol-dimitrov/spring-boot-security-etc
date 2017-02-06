@@ -118,8 +118,6 @@ public class ProfilePhotoService {
     private List<Image> getAll(URL originalImageUrl, final List<Image> rescaledImages) {
         final Image image = Image.builder()
                 .original(true)
-                .height(375)
-                .width(272)
                 .url(originalImageUrl.toString()).build();
 
         rescaledImages.add(image);
