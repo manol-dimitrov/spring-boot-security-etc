@@ -67,41 +67,26 @@ public class ProfilePhotoService {
         }
     }
 
-    /**
-     * TODO: Creates an artist showcase.
-     * @param photos
-     */
-    public void createShowcase(MultipartFile[] photos) {
-
+    public List<List<Image>> createShowcase(MultipartFile[] photos) {
+        return uploadMultipleOriginalPhotos(photos);
     }
 
-    /**
-     * TODO: Update a profile's showcase.
-     */
+    //TODO: Update an image showcase
     public void updateShowcase() {
 
     }
 
-    private void uploadAllPhotos(@RequestPart MultipartFile[] photos) {
-        final List<List<Image>> images = Arrays.stream(photos).map(this::uploadOriginalPhoto).collect(toList());
-    }
-
-    private List<Image> getFinalImages(URL originalImageUrl, MediaType contentType, String fileName) {
-        try {
-            final Map<ImageResolution, String> rescaledImagesMap = imageGenerator.run(contentType, fileName);
-            return getAll(originalImageUrl, getRescaledImages(rescaledImagesMap));
-        } catch (Exception e) {
-            throw new RuntimeException("Image rescaling failed: ", e);
-        }
+    private List<List<Image>> uploadMultipleOriginalPhotos(@RequestPart MultipartFile[] photos) {
+        return Arrays.stream(photos).map(this::uploadSingleOriginalPhoto).collect(toList());
     }
 
     /**
-     * Uploads single photo.
+     * Uploads original phot photo.
      *
      * @param photo original photo
      * @return list of rescaled images + original
      */
-    private List<Image> uploadOriginalPhoto(MultipartFile photo) {
+    private List<Image> uploadSingleOriginalPhoto(MultipartFile photo) {
         try {
             final URL originalUrl = photoUploader.upload(photo.getInputStream(), photo.getContentType(), photo.getSize());
 
@@ -115,6 +100,21 @@ public class ProfilePhotoService {
         }
     }
 
+    private List<Image> getFinalImages(URL originalImageUrl, MediaType contentType, String fileName) {
+        try {
+            final Map<ImageResolution, String> rescaledImagesMap = imageGenerator.run(contentType, fileName);
+            return getAll(originalImageUrl, getRescaledImages(rescaledImagesMap));
+        } catch (Exception e) {
+            throw new RuntimeException("Image rescaling failed: ", e);
+        }
+    }
+
+    /**
+     * Combines original photo and rescaled images.
+     * @param originalImageUrl S3 url of original photo.
+     * @param rescaledImages list of rescaled images.
+     * @return all images
+     */
     private List<Image> getAll(URL originalImageUrl, final List<Image> rescaledImages) {
         final Image image = Image.builder().original(true).url(originalImageUrl.toString()).build();
 
@@ -123,6 +123,11 @@ public class ProfilePhotoService {
         return ImmutableList.copyOf(rescaledImages);
     }
 
+    /**
+     * Fetches list of rescaled images.
+     * @param rescaledImages map of rescaled image type and url.
+     * @return list of all relevant rescaled images.
+     */
     private List<Image> getRescaledImages(Map<ImageResolution, String> rescaledImages) {
         List<Image> rescaled = new ArrayList<>();
 
