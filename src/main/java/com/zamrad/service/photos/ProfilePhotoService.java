@@ -116,9 +116,7 @@ public class ProfilePhotoService {
     }
 
     private List<Image> getAll(URL originalImageUrl, final List<Image> rescaledImages) {
-        final Image image = Image.builder()
-                .original(true)
-                .url(originalImageUrl.toString()).build();
+        final Image image = Image.builder().original(true).url(originalImageUrl.toString()).build();
 
         rescaledImages.add(image);
 
@@ -129,7 +127,7 @@ public class ProfilePhotoService {
         List<Image> rescaled = new ArrayList<>();
 
         for (Map.Entry<ImageResolution, String> entry : rescaledImages.entrySet()) {
-            if (entry.getKey().equals(ImageResolution.ARTIST_SQUARE_THUMBNAIL)) {
+            if (entry.getKey().equals(ImageResolution.SHOWCASE_THUMBNAIL)) {
                 final Image squareThumbnail = convertSquareThumbnail.apply(entry);
                 rescaled.add(squareThumbnail);
             }

@@ -31,7 +31,7 @@ public class ImageRescaler {
                     case PROFILE_THUMBNAIL:
                         rescale(srcImage, target.dst, 375, 272);
                         break;
-                    case ARTIST_SQUARE_THUMBNAIL:
+                    case SHOWCASE_THUMBNAIL:
                         rescale(srcImage, target.dst, 99, 99);
                     default:
                         throw new IllegalArgumentException("Unable to rescale image to: " + target.resolution.name());
