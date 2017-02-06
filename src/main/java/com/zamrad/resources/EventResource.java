@@ -1,7 +1,7 @@
 package com.zamrad.resources;
 
-import com.zamrad.domain.Event;
-import com.zamrad.domain.EventSlot;
+import com.zamrad.domain.events.Event;
+import com.zamrad.domain.events.EventSlot;
 import com.zamrad.dto.events.*;
 import com.zamrad.service.event.EventNotFoundException;
 import com.zamrad.service.event.EventService;

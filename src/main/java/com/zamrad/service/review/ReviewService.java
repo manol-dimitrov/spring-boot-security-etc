@@ -1,6 +1,6 @@
 package com.zamrad.service.review;
 
-import com.zamrad.domain.Profile;
+import com.zamrad.domain.profiles.Profile;
 import com.zamrad.domain.Review;
 import com.zamrad.dto.profiles.NewReviewDto;
 import com.zamrad.repository.ProfileRepository;

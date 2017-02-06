@@ -2,7 +2,7 @@ package com.zamrad.service.photos;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.net.MediaType;
-import com.zamrad.domain.Profile;
+import com.zamrad.domain.profiles.Profile;
 import com.zamrad.dto.Image;
 import com.zamrad.repository.ProfileRepository;
 import com.zamrad.service.fileuploader.PhotoUploader;

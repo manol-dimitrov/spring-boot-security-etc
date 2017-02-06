@@ -1,8 +1,8 @@
 package com.zamrad.service.event;
 
-import com.zamrad.domain.Event;
-import com.zamrad.domain.EventAdditionalDetails;
-import com.zamrad.domain.EventSlot;
+import com.zamrad.domain.events.Event;
+import com.zamrad.domain.events.EventAdditionalDetails;
+import com.zamrad.domain.events.EventSlot;
 import com.zamrad.dto.events.EventAdditionalDetailsDto;
 import com.zamrad.dto.events.EventDto;
 import com.zamrad.dto.events.EventSlotDto;

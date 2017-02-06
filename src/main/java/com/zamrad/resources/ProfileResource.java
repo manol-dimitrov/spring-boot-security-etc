@@ -1,6 +1,6 @@
 package com.zamrad.resources;
 
-import com.zamrad.domain.Profile;
+import com.zamrad.domain.profiles.Profile;
 import com.zamrad.dto.events.ArtistCalendarEvent;
 import com.zamrad.dto.events.BookerCalendarEvent;
 import com.zamrad.dto.profiles.NewProfileDto;

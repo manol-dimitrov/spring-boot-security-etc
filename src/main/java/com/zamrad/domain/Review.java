@@ -3,6 +3,7 @@ package com.zamrad.domain;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.zamrad.domain.profiles.Profile;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

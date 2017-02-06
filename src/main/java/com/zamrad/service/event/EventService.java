@@ -1,6 +1,10 @@
 package com.zamrad.service.event;
 
-import com.zamrad.domain.*;
+import com.zamrad.domain.events.Event;
+import com.zamrad.domain.events.EventAdditionalDetails;
+import com.zamrad.domain.events.EventSlot;
+import com.zamrad.domain.events.EventStatus;
+import com.zamrad.domain.profiles.Profile;
 import com.zamrad.dto.events.*;
 import com.zamrad.repository.EventRepository;
 import com.zamrad.repository.EventSlotRepository;
@@ -20,7 +24,6 @@ import java.time.Clock;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static com.zamrad.service.event.EventDtoMappers.EVENT_DTO_MAPPER;

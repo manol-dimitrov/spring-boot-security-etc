@@ -1,4 +1,4 @@
-package com.zamrad.domain;
+package com.zamrad.domain.events;
 
 public enum EventStatus {
     DRAFT("draft"),

@@ -1,4 +1,4 @@
-package com.zamrad.domain;
+package com.zamrad.domain.events;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

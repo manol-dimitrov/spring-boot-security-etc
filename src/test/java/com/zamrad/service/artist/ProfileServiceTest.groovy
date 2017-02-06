@@ -2,7 +2,7 @@ package com.zamrad.service.artist
 
 import com.google.common.collect.Sets
 import com.zamrad.domain.Genre
-import com.zamrad.domain.Profile
+import com.zamrad.domain.profiles.Profile
 import com.zamrad.dto.profiles.UpdateProfileDto
 import com.zamrad.repository.ProfileRepository
 import com.zamrad.repository.GenreRepository

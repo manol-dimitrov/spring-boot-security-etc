@@ -1,9 +1,10 @@
-package com.zamrad.domain;
+package com.zamrad.domain.events;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.zamrad.domain.profiles.Profile;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
