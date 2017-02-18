@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.zamrad.domain.Genre;
-import com.zamrad.domain.Review;
+import com.zamrad.domain.reviews.Review;
+import com.zamrad.domain.payments.StripeCustomer;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -40,6 +40,9 @@ public class Profile {
     )
     @JsonManagedReference
     protected Set<Genre> genres = new HashSet<>();
+
+    @OneToOne
+    StripeCustomer stripeCustomer;
 
     @Id
     @GeneratedValue(generator = "uuid2")

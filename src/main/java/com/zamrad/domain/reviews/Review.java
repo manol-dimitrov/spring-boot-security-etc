@@ -1,4 +1,4 @@
-package com.zamrad.domain;
+package com.zamrad.domain.reviews;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
@@ -26,7 +26,7 @@ public class Review {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "profile_id")
     @JsonManagedReference
-    protected Profile profile;
+    public Profile profile;
 
     @Id
     @GeneratedValue(generator = "uuid2")

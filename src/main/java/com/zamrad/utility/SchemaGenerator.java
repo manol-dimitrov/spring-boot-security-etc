@@ -31,7 +31,11 @@ public class SchemaGenerator {
         File f = new File(".");
         String directory = f.getAbsoluteFile() + "/src/test/resources/";
 
-        String packageName[] = {"com.zamrad.domain"};
+        String packageName[] = {
+                "com.zamrad.domain.events",
+                "com.zamrad.domain.profiles",
+                "com.zamrad.domain.reviews",
+                "com.zamrad.domain.payments"};
 
         SchemaGenerator gen = new SchemaGenerator(packageName);
         gen.generate(Dialect.MYSQL, directory);

@@ -1,6 +1,6 @@
 package com.zamrad.resources;
 
-import com.zamrad.domain.Review;
+import com.zamrad.domain.reviews.Review;
 import com.zamrad.dto.profiles.NewReviewDto;
 import com.zamrad.service.review.ReviewNotFoundException;
 import com.zamrad.service.review.ReviewService;

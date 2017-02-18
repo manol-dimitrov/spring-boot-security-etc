@@ -1,6 +1,6 @@
 package com.zamrad.repository;
 
-import com.zamrad.domain.Review;
+import com.zamrad.domain.reviews.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,6 +1,6 @@
 package com.zamrad.repository;
 
-import com.zamrad.domain.Genre;
+import com.zamrad.domain.profiles.Genre;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

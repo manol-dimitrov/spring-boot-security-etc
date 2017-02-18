@@ -1,4 +1,4 @@
-package com.zamrad.domain;
+package com.zamrad.domain.profiles;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;

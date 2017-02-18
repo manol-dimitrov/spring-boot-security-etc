@@ -1,6 +1,6 @@
 package com.zamrad.service.artist;
 
-import com.zamrad.domain.Genre;
+import com.zamrad.domain.profiles.Genre;
 import com.zamrad.domain.profiles.Profile;
 import com.zamrad.dto.profiles.GenreUpdateDto;
 import com.zamrad.dto.profiles.NewProfileDto;
