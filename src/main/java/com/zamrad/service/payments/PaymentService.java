@@ -14,10 +14,10 @@ public class PaymentService {
     private StripeClient stripeClient;
 
     public void createCustomer(){
-
+        stripeClient.createCustomer();
     }
 
     public void createCharge(){
-
+        stripeClient.createCharge();
     }
 }

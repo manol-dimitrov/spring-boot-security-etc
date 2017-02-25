@@ -15,10 +15,8 @@ import java.util.Map;
 
 @Component
 public class StripeClient {
-    public static final String AUTHORIZE_URI = "https://connect.stripe.com/oauth/authorize";
-    public static final String TOKEN_URI = "https://connect.stripe.com/oauth/token";
-    private static final Map<String, String> ENVIRONMENT_VARIABLES = System.getenv();
 
+    private static final Map<String, String> ENVIRONMENT_VARIABLES = System.getenv();
 
     @Autowired
     public StripeClient() {
@@ -121,5 +119,15 @@ public class StripeClient {
             throw new RuntimeException("A deferred account could not be created: ", e);
         }
 
+    }
+
+    public Account getAccount(String accountId) {
+        Stripe.apiKey = ENVIRONMENT_VARIABLES.get("STRIPE_API_KEY");
+
+        try {
+            return Account.retrieve(accountId, null);
+        } catch (AuthenticationException | InvalidRequestException | CardException | APIConnectionException | APIException e) {
+            throw new RuntimeException("Failed to retrieve account: ", e);
+        }
     }
 }
