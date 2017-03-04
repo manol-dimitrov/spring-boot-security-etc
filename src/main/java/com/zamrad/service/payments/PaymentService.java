@@ -13,11 +13,23 @@ public class PaymentService {
     @Autowired
     private StripeClient stripeClient;
 
-    public void createCustomer(){
-        stripeClient.createCustomer();
+    public void createCustomer() {
+        //stripeClient.createCustomer();
+    }
+
+    public void getCustomer(){
+
     }
 
     public void createCharge(){
-        stripeClient.createCharge();
+        //stripeClient.createCharge();
+    }
+
+    public void getDeferredAccount(){
+
+    }
+
+    public void createDeferredAccount(){
+
     }
 }

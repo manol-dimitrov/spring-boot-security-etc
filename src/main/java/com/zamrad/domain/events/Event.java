@@ -74,6 +74,9 @@ public class Event {
     @Column(name = "venue_capacity")
     private Long venueCapacity;
 
+    @Column(name = "venue_type")
+    private String venueType;
+
     @Column(name = "cancellation_policy")
     private String cancellationPolicy;
 

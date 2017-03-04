@@ -37,6 +37,8 @@ public class EventDto {
     @JsonProperty
     private String venueCapacity;
     @JsonProperty
+    private String venueType;
+    @JsonProperty
     private List<EventSlotDto> eventSlots;
     @JsonProperty
     private EventAdditionalDetailsDto eventAdditionalDetailsDto;

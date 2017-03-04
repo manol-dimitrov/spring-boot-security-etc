@@ -42,6 +42,10 @@ public class NewEventDto {
     @NotNull
     private String venueCapacity;
 
+    @JsonProperty
+    @NotNull
+    private String venueType;
+
     @JsonProperty("new_event_slot")
     @NotNull
     private NewEventSlotDto newEventSlotDto;

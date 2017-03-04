@@ -81,6 +81,7 @@ public class EventService {
                 .date(LocalDate.now(Clock.systemUTC()))
                 .description(newEventDto.getDescription())
                 .paymentType(newEventDto.getPaymentType())
+                .venueType(newEventDto.getVenueType())
                 .venueCapacity(Long.valueOf(newEventDto.getVenueCapacity()))
                 .build();
 
