@@ -6,19 +6,20 @@
     );
 
     create table zamrad_dev.event (
-        id                          BINARY(16) NOT NULL,
-        address                     VARCHAR(255),
-        cancellation_policy         VARCHAR(255),
-        date                        TINYBLOB,
-        description                 VARCHAR(255),
-        payment_type                VARCHAR(255),
-        photo_url                   VARCHAR(255),
-        status                      VARCHAR(255),
-        title                       VARCHAR(255),
-        type                        VARCHAR(255),
-        venue_capacity              BIGINT,
+        id BINARY(16) not null,
+        address varchar(255),
+        cancellation_policy varchar(255),
+        date tinyblob,
+        description varchar(255),
+        payment_type varchar(255),
+        photo_url varchar(255),
+        status varchar(255),
+        title varchar(255),
+        type varchar(255),
+        venue_capacity bigint,
+        venue_type varchar(255),
         event_additional_details_id BINARY(16),
-        profile_id                  BINARY(16),
+        profile_id BINARY(16),
         primary key (id)
     );
 
@@ -61,30 +62,29 @@
         primary key (id)
     );
 
-    CREATE TABLE zamrad_dev.profile_showcase (
-        id BINARY(16) NOT NULL,
-        PRIMARY KEY (id)
+    create table zamrad_dev.profile_showcase (
+        id BINARY(16) not null,
+        primary key (id)
     );
 
     create table zamrad_dev.profiles (
-        id                  BINARY(16) NOT NULL,
-        address             VARCHAR(255),
-        alias               VARCHAR(255),
-        average_rating      DOUBLE PRECISION,
-        bio                 VARCHAR(255),
-        email               VARCHAR(255),
-        facebook_id         BIGINT,
-        first_name          VARCHAR(255),
-        gender              VARCHAR(255),
+        id BINARY(16) not null,
+        address varchar(255),
+        alias varchar(255),
+        average_rating double precision,
+        bio varchar(255),
+        email varchar(255),
+        facebook_id bigint,
+        first_name varchar(255),
+        gender varchar(255),
         max_travel_distance integer,
-        minimum_fee         DECIMAL(19, 2),
-        mobile_number       VARCHAR(255),
-        photo_url           VARCHAR(255),
-        profile_type        VARCHAR(255),
-        second_name         VARCHAR(255),
-        type                VARCHAR(255),
-        years_experience    INTEGER,
-        stripe_customer     BINARY(16),
+        minimum_fee decimal(19,2),
+        mobile_number varchar(255),
+        photo_url varchar(255),
+        profile_type varchar(255),
+        second_name varchar(255),
+        type varchar(255),
+        years_experience integer,
         primary key (id)
     );
 
@@ -97,19 +97,27 @@
         primary key (id)
     );
 
-    CREATE TABLE zamrad_dev.showcase_image (
-        id          BINARY(16) NOT NULL,
-        image_url   VARCHAR(255),
+    create table zamrad_dev.showcase_image (
+        id BINARY(16) not null,
+        image_url varchar(255),
         showcase_id BINARY(16),
-        PRIMARY KEY (id)
+        primary key (id)
     );
 
-    CREATE TABLE zamrad_dev.stripe_customer (
-        id             BINARY(16) NOT NULL,
-        customer_token VARCHAR(255),
-        email          VARCHAR(255),
-        profile        BINARY(16),
-        PRIMARY KEY (id)
+    create table zamrad_dev.stripe_charge (
+        id BINARY(16) not null,
+        amount decimal(19,2),
+        captured varchar(255),
+        charge_id varchar(255),
+        customer_id varchar(255),
+        primary key (id)
+    );
+
+    create table zamrad_dev.stripe_customer (
+        id BINARY(16) not null,
+        customer_token varchar(255),
+        email varchar(255),
+        primary key (id)
     );
 
     alter table zamrad_dev.artist_genres 
@@ -122,10 +130,10 @@
         foreign key (profile_id) 
         references zamrad_dev.profiles (id);
 
-    ALTER TABLE zamrad_dev.event
-        ADD CONSTRAINT FK_ej0hn6j64ju38qand90p6q499
-    FOREIGN KEY (event_additional_details_id)
-    REFERENCES zamrad_dev.event_additional_details (id);
+    alter table zamrad_dev.event 
+        add constraint FK_ej0hn6j64ju38qand90p6q499 
+        foreign key (event_additional_details_id) 
+        references zamrad_dev.event_additional_details (id);
 
     alter table zamrad_dev.event 
         add constraint FK_h3l8glmo3itbtihgth000p0q7 
@@ -147,22 +155,12 @@
         foreign key (profile_id) 
         references zamrad_dev.event_slot (id);
 
-    ALTER TABLE zamrad_dev.profiles
-        ADD CONSTRAINT FK_jy3brtigb3fhp0clhnq54ao8s
-    FOREIGN KEY (stripe_customer)
-    REFERENCES zamrad_dev.stripe_customer (id);
-
     alter table zamrad_dev.review 
         add constraint FK_5bqt2a266wqtsf7lf31flr7ce 
         foreign key (profile_id) 
         references zamrad_dev.profiles (id);
 
-    ALTER TABLE zamrad_dev.showcase_image
-        ADD CONSTRAINT FK_axlxbxbujmiut7vihpgwqcwer
-    FOREIGN KEY (showcase_id)
-    REFERENCES zamrad_dev.profile_showcase (id);
-
-    ALTER TABLE zamrad_dev.stripe_customer
-        ADD CONSTRAINT FK_3ddw82j3ccr23ikeys6wshqhl
-    FOREIGN KEY (profile)
-    REFERENCES zamrad_dev.profiles (id);
+    alter table zamrad_dev.showcase_image 
+        add constraint FK_axlxbxbujmiut7vihpgwqcwer 
+        foreign key (showcase_id) 
+        references zamrad_dev.profile_showcase (id);

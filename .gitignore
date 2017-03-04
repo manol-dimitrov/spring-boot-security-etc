@@ -10,3 +10,4 @@ zamrad-api.log
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+!/src/test/resources/schema-mysql.sql

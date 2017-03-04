@@ -41,8 +41,8 @@ public class Profile {
     @JsonManagedReference
     protected Set<Genre> genres = new HashSet<>();
 
-    @OneToOne
-    StripeCustomer stripeCustomer;
+    //@OneToOne
+    //StripeCustomer stripeCustomer;
 
     @Id
     @GeneratedValue(generator = "uuid2")

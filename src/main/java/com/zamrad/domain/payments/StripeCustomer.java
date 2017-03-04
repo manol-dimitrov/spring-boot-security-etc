@@ -26,6 +26,6 @@ public class StripeCustomer {
 
     private String email;
 
-    @OneToOne
-    Profile profile;
+    //@OneToOne
+    //Profile profile;
 }

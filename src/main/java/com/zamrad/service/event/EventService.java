@@ -190,6 +190,9 @@ public class EventService {
                 .eventId(event.getId().toString())
                 .eventPhotoUrl(event.getPhotoUrl())
                 .eventTitle(event.getTitle())
+                .eventAddress(event.getAddress())
+                .eventStatus(event.getStatus())
+                .venueType(event.getVenueType())
                 .eventSlots(eventSlots.collect(toList()))
                 .build();
     }
@@ -337,6 +340,10 @@ public class EventService {
         return ArtistCalendarEvent.builder()
                 .eventId(event.getId().toString())
                 .eventTitle(event.getTitle())
+                .eventAddress(event.getAddress())
+                .eventDate(event.getDate().toString())
+                .eventStatus(event.getStatus())
+                .venueType(event.getVenueType())
                 .eventPhotoUrl(event.getPhotoUrl())
                 .eventSlots(eventSlots.stream().map(EVENT_SLOT_DTO_MAPPER).collect(toList()))
                 .build();
