@@ -21,6 +21,14 @@ public class ArtistCalendarEvent {
     @JsonProperty
     private String eventTitle;
     @JsonProperty
+    private String eventAddress;
+    @JsonProperty
+    private String eventStatus;
+    @JsonProperty
+    private String eventDate;
+    @JsonProperty
+    private String venueType;
+    @JsonProperty
     private List<EventSlotDto> eventSlots;
 
 }

@@ -7,7 +7,6 @@ import com.stripe.model.Charge;
 import com.stripe.model.Customer;
 import com.stripe.model.Token;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -18,7 +17,6 @@ public class StripeClient {
 
     private static final Map<String, String> ENVIRONMENT_VARIABLES = System.getenv();
 
-    @Autowired
     public StripeClient() {
 
     }
