@@ -190,6 +190,7 @@ public class EventService {
                 .eventId(event.getId().toString())
                 .eventPhotoUrl(event.getPhotoUrl())
                 .eventTitle(event.getTitle())
+                .eventDate(event.getDate().toString())
                 .eventAddress(event.getAddress())
                 .eventStatus(event.getStatus())
                 .venueType(event.getVenueType())
