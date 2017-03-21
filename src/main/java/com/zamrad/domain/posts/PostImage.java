@@ -1,31 +1,39 @@
-package com.zamrad.domain.payments;
+package com.zamrad.domain.posts;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.zamrad.domain.profiles.Profile;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.experimental.Tolerate;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "stripe_customer", schema = "zamrad_dev")
+@Table(name = "post_image", schema = "zamrad_dev")
 @Data
 @Builder
+@EqualsAndHashCode(exclude = "post")
+@ToString(exclude = "post")
 @JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
-public class StripeCustomer {
+public class PostImage {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
-    private String customerToken;
+    private String url;
 
-    private String email;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "post_id")
+    @JsonBackReference
+    private Post post;
 
-    @OneToOne
-    Profile profile;
+    @Tolerate
+    private PostImage(){}
 }

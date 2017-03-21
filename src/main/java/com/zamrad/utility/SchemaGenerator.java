@@ -35,7 +35,8 @@ public class SchemaGenerator {
                 "com.zamrad.domain.events",
                 "com.zamrad.domain.profiles",
                 "com.zamrad.domain.reviews",
-                "com.zamrad.domain.payments"};
+                "com.zamrad.domain.payments",
+                "com.zamrad.domain.posts"};
 
         SchemaGenerator gen = new SchemaGenerator(packageName);
         gen.generate(Dialect.MYSQL, directory);
