@@ -8,12 +8,11 @@ import com.zamrad.repository.PostRepository;
 import com.zamrad.service.photos.ProfilePhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toSet;
@@ -36,13 +35,28 @@ public class PostService {
 
     public Post createPost(NewPostDto newPost, MultipartFile[] images, Long socialId) {
         final Post.PostBuilder postBuilder = CONVERT_TO_POST.apply(newPost);
-        final List<List<Image>> uploadMultiplePhotos = profilePhotoService.uploadMultiplePhotos(images);
-        final Set<Image> imageList = uploadMultiplePhotos.stream().flatMap(Collection::stream).collect(toSet());
 
-        final Set<PostImage> postImages = imageList.stream().map(CONVERT_TO_POST_IMAGE).collect(toSet());
+        final List<List<Image>> uploadMultiplePhotos;
+        final Set<Image> imageList;
+        final Set<PostImage> postImages;
 
-        final Post post = postBuilder.images(postImages).build();
+        if (!CollectionUtils.isEmpty(Arrays.asList(images))) {
+            uploadMultiplePhotos = profilePhotoService.uploadImages(images);
 
-        return postRepository.save(post);
+            imageList = uploadMultiplePhotos.stream().flatMap(Collection::stream).collect(toSet());
+            postImages = imageList.stream().map(CONVERT_TO_POST_IMAGE).collect(toSet());
+
+            postBuilder.images(postImages);
+        }
+
+        return postRepository.save(postBuilder.build());
+    }
+
+    public Post getPost(UUID postId) {
+        return postRepository.getOne(postId);
+    }
+
+    public List<Post> getAllPosts() {
+        return postRepository.findAll();
     }
 }

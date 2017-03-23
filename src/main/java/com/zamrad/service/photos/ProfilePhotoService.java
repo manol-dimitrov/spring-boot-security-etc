@@ -67,7 +67,7 @@ public class ProfilePhotoService {
         }
     }
 
-    public List<List<Image>> uploadMultiplePhotos(MultipartFile[] photos) {
+    public List<List<Image>> uploadImages(MultipartFile[] photos) {
         return uploadMultipleOriginalPhotos(photos);
     }
 
