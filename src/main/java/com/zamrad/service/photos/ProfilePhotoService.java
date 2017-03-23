@@ -67,7 +67,7 @@ public class ProfilePhotoService {
         }
     }
 
-    public List<List<Image>> createShowcase(MultipartFile[] photos) {
+    public List<List<Image>> uploadMultiplePhotos(MultipartFile[] photos) {
         return uploadMultipleOriginalPhotos(photos);
     }
 
@@ -76,12 +76,12 @@ public class ProfilePhotoService {
 
     }
 
-    private List<List<Image>> uploadMultipleOriginalPhotos(@RequestPart MultipartFile[] photos) {
+    private List<List<Image>> uploadMultipleOriginalPhotos(MultipartFile[] photos) {
         return Arrays.stream(photos).map(this::uploadSingleOriginalPhoto).collect(toList());
     }
 
     /**
-     * Uploads original phot photo.
+     * Uploads original photo.
      *
      * @param photo original photo
      * @return list of rescaled profileShowcaseImages + original

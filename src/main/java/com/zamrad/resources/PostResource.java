@@ -61,7 +61,7 @@ public class PostResource {
                                         @ApiIgnore final Principal principal) {
         final Post post;
         try {
-            post = postService.createPost(newPost, getUserSocialId());
+            post = postService.createPost(newPost, photos, getUserSocialId());
         } catch (Exception ex) {
             String error = String.format("{\"message\": \"%s\"}", ex.toString());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);

@@ -117,7 +117,7 @@ public class ProfilePhotoResource {
         final Optional<Profile> profile = getProfile(principal);
 
         if (profile.isPresent()) {
-            profilePhotoService.createShowcase(photos);
+            profilePhotoService.uploadMultiplePhotos(photos);
         } else {
             return ResponseEntity.badRequest().build();
         }
