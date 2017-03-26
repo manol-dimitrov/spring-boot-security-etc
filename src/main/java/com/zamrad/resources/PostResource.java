@@ -3,10 +3,12 @@ package com.zamrad.resources;
 import com.zamrad.domain.posts.Post;
 import com.zamrad.dto.posts.NewPostDto;
 import com.zamrad.dto.posts.PostDto;
+import com.zamrad.service.PostNotFoundException;
 import com.zamrad.service.PostService;
 import com.zamrad.service.user.Auth0TokenService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,7 +20,9 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.security.Principal;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/posts/v1")
@@ -34,7 +38,7 @@ public class PostResource {
     private Auth0TokenService auth0TokenService;
 
     @Autowired
-    private org.springframework.core.env.Environment environment;
+    private Environment environment;
 
     @ApiOperation(value = "Retrieve a post by its id.", response = PostDto.class, produces = POST_MEDIA_TYPE)
     @ApiResponses(value = {
@@ -44,8 +48,14 @@ public class PostResource {
     })
     @RequestMapping(value = "/{postId}", method = RequestMethod.GET, produces = POST_MEDIA_TYPE)
     @ApiImplicitParam(name = "Authorization", value = "Bearer token", dataType = "string", paramType = "header")
-    public void getPost() {
-
+    public ResponseEntity<Post> getPost(@PathVariable("postId") UUID postId, @ApiIgnore final Principal principal) {
+        Post post;
+        try {
+            post = postService.getPost(postId);
+        } catch (PostNotFoundException exception) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Create a community post.", response = PostDto.class, produces = POST_MEDIA_TYPE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -74,6 +84,23 @@ public class PostResource {
                 .buildAndExpand(post.getId()).toUri());
 
         return new ResponseEntity<>(post, headers, HttpStatus.CREATED);
+    }
+
+    @ApiOperation(value = "Retrieve all posts.", response = PostDto.class, responseContainer = "List", produces = POST_MEDIA_TYPE)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Post retrieved successfully."),
+            @ApiResponse(code = 403, message = "The operation cannot be fulfilled with the provided credentials/request body.")
+    })
+    @RequestMapping(method = RequestMethod.GET, produces = POST_MEDIA_TYPE)
+    @ApiImplicitParam(name = "Authorization", value = "Bearer token", dataType = "string", paramType = "header")
+    public ResponseEntity<?> getAllPosts(@ApiIgnore final Principal principal) {
+        List<Post> allPosts;
+        try {
+            allPosts = postService.getAllPosts();
+        } catch (PostNotFoundException exception) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return new ResponseEntity<>(allPosts, HttpStatus.OK);
     }
 
     private Long getUserSocialId() {

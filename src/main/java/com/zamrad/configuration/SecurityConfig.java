@@ -24,6 +24,7 @@ public class SecurityConfig extends Auth0SecurityConfig {
     private static final String PHOTOS_PATH = "/photos/v1/**";
     private static final String TOKENS_PATH = "/tokens/v1/**";
     private static final String REVIEWS_PATH = "/reviews/v1/**";
+    private static final String POSTS_PATH = "/posts/v1/**";
 
     @Bean
     public Auth0Client auth0Client() {
@@ -50,8 +51,9 @@ public class SecurityConfig extends Auth0SecurityConfig {
         http.authorizeRequests()
                 .antMatchers(PROFILES_PATH).authenticated()
                 .antMatchers(PHOTOS_PATH).authenticated()
-                .antMatchers(REVIEWS_PATH).authenticated()
+                .antMatchers(POSTS_PATH).authenticated()
                 .antMatchers(TOKENS_PATH).authenticated()
+                .antMatchers(REVIEWS_PATH).authenticated()
                 .antMatchers(EVENTS_PATH).authenticated();
     }
 }

@@ -2,9 +2,12 @@ package com.zamrad.service;
 
 import com.zamrad.domain.posts.Post;
 import com.zamrad.domain.posts.PostImage;
+import com.zamrad.domain.profiles.Profile;
 import com.zamrad.dto.Image;
 import com.zamrad.dto.posts.NewPostDto;
 import com.zamrad.repository.PostRepository;
+import com.zamrad.service.artist.ArtistProfileNotFoundException;
+import com.zamrad.service.artist.ProfileService;
 import com.zamrad.service.photos.ProfilePhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,6 +24,7 @@ import static java.util.stream.Collectors.toSet;
 public class PostService {
 
     private final static Function<NewPostDto, Post.PostBuilder> CONVERT_TO_POST = newPostDto -> Post.builder()
+            .type(newPostDto.getType())
             .content(newPostDto.getContent())
             .dateTime(LocalDateTime.now())
             .link(newPostDto.getLink());
@@ -31,10 +35,16 @@ public class PostService {
     private ProfilePhotoService profilePhotoService;
 
     @Autowired
+    private ProfileService profileService;
+
+    @Autowired
     private PostRepository postRepository;
 
     public Post createPost(NewPostDto newPost, MultipartFile[] images, Long socialId) {
         final Post.PostBuilder postBuilder = CONVERT_TO_POST.apply(newPost);
+
+        final UUID posterId = getPosterProfile(socialId).getId();
+        postBuilder.posterId(posterId);
 
         final List<List<Image>> uploadMultiplePhotos;
         final Set<Image> imageList;
@@ -58,5 +68,10 @@ public class PostService {
 
     public List<Post> getAllPosts() {
         return postRepository.findAll();
+    }
+
+    private Profile getPosterProfile(Long socialId) {
+        final Optional<Profile> myProfile = profileService.getMyProfile(socialId);
+        return myProfile.orElseThrow(() -> new ArtistProfileNotFoundException("Profile does not exist."));
     }
 }
