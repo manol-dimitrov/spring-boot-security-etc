@@ -66,7 +66,9 @@ public class PostResource {
             @ApiResponse(code = 403, message = "The operation cannot be fulfilled with the provided credentials/request body."),
             @ApiResponse(code = 400, message = "The request body contains invalid fields.")
     })
-    @RequestMapping(method = RequestMethod.POST, produces = POST_MEDIA_TYPE, consumes = {MULTIPART_FORM_DATA_VALUE, POST_MEDIA_TYPE, APPLICATION_OCTET_STREAM_VALUE})
+    @RequestMapping(method = RequestMethod.POST,
+            produces = {MULTIPART_FORM_DATA_VALUE, POST_MEDIA_TYPE, APPLICATION_OCTET_STREAM_VALUE},
+            consumes = {MULTIPART_FORM_DATA_VALUE, POST_MEDIA_TYPE, APPLICATION_OCTET_STREAM_VALUE})
     @ApiImplicitParam(name = "Authorization", value = "Bearer token", dataType = "string", paramType = "header")
     public ResponseEntity<?> createPost(@RequestPart(value = "images", required = false) MultipartFile[] photos,
                                         @RequestPart("post") NewPostDto newPost,
