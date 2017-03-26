@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +23,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static org.springframework.http.MediaType.*;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequestMapping("/posts/v1")
@@ -69,7 +68,7 @@ public class PostResource {
     @RequestMapping(method = RequestMethod.POST, produces = POST_MEDIA_TYPE, consumes = {MULTIPART_FORM_DATA_VALUE, POST_MEDIA_TYPE})
     @ApiImplicitParam(name = "Authorization", value = "Bearer token", dataType = "string", paramType = "header")
     public ResponseEntity<?> createPost(@RequestPart(value = "images", required = false) MultipartFile[] photos,
-                                        @RequestBody NewPostDto newPost,
+                                        @RequestPart("post") NewPostDto newPost,
                                         @ApiIgnore final Principal principal) {
         final Post post;
         try {
