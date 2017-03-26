@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import static org.springframework.http.MediaType.APPLICATION_OCTET_STREAM_VALUE;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
@@ -65,7 +66,7 @@ public class PostResource {
             @ApiResponse(code = 403, message = "The operation cannot be fulfilled with the provided credentials/request body."),
             @ApiResponse(code = 400, message = "The request body contains invalid fields.")
     })
-    @RequestMapping(method = RequestMethod.POST, produces = POST_MEDIA_TYPE, consumes = {MULTIPART_FORM_DATA_VALUE, POST_MEDIA_TYPE})
+    @RequestMapping(method = RequestMethod.POST, produces = POST_MEDIA_TYPE, consumes = {MULTIPART_FORM_DATA_VALUE, POST_MEDIA_TYPE, APPLICATION_OCTET_STREAM_VALUE})
     @ApiImplicitParam(name = "Authorization", value = "Bearer token", dataType = "string", paramType = "header")
     public ResponseEntity<?> createPost(@RequestPart(value = "images", required = false) MultipartFile[] photos,
                                         @RequestPart("post") NewPostDto newPost,
