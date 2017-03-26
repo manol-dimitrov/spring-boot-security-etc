@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import static org.springframework.http.MediaType.*;
+
 @RestController
 @RequestMapping("/posts/v1")
 @CrossOrigin
@@ -58,13 +60,13 @@ public class PostResource {
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Create a community post.", response = PostDto.class, produces = POST_MEDIA_TYPE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @ApiOperation(value = "Create a community post.", response = PostDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Post created successfully."),
             @ApiResponse(code = 403, message = "The operation cannot be fulfilled with the provided credentials/request body."),
             @ApiResponse(code = 400, message = "The request body contains invalid fields.")
     })
-    @RequestMapping(method = RequestMethod.POST, produces = POST_MEDIA_TYPE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @RequestMapping(method = RequestMethod.POST, produces = POST_MEDIA_TYPE, consumes = {MULTIPART_FORM_DATA_VALUE, POST_MEDIA_TYPE})
     @ApiImplicitParam(name = "Authorization", value = "Bearer token", dataType = "string", paramType = "header")
     public ResponseEntity<?> createPost(@RequestPart(value = "images", required = false) MultipartFile[] photos,
                                         @RequestBody NewPostDto newPost,
