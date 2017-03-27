@@ -2,6 +2,8 @@ package com.zamrad.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zamrad.domain.posts.Post;
+import com.zamrad.domain.posts.PostImage;
+import com.zamrad.dto.Image;
 import com.zamrad.dto.posts.NewPostDto;
 import com.zamrad.dto.posts.PostDto;
 import com.zamrad.service.PostNotFoundException;
@@ -20,10 +22,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.security.Principal;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.function.Function;
+
+import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/posts/v1")
@@ -31,6 +37,17 @@ import java.util.UUID;
 @Api(value = "/posts", description = "Create, update or delete a community post.")
 public class PostResource {
     private static final String POST_MEDIA_TYPE = "application/json; charset=UTF-8";
+
+    private final static Function<PostImage, Image> CONVERT_TO_IMAGE = postImage -> Image.builder().url(postImage.getUrl()).build();
+    private final static Function<Post, PostDto> CONVERT_TO_POST_DTO = post -> PostDto.builder()
+            .content(post.getContent())
+            .posterId(post.getPosterId().toString())
+            .title(post.getTitle())
+            .createdDateTime(post.getDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+            .images(post.getImages().stream().map(CONVERT_TO_IMAGE).collect(toList()))
+            .link(post.getLink())
+            .build();
+
 
     @Autowired
     private PostService postService;
@@ -85,9 +102,7 @@ public class PostResource {
                 .path("/{id}")
                 .buildAndExpand(post.getId()).toUri());
 
-        final PostDto postDto = PostService.CONVERT_TO_POST_DTO.apply(post);
-
-        return new ResponseEntity<>(postDto, headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(CONVERT_TO_POST_DTO.apply(post), headers, HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Retrieve all posts.", response = PostDto.class, responseContainer = "List", produces = POST_MEDIA_TYPE)
