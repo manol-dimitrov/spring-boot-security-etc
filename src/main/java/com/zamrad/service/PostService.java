@@ -35,7 +35,7 @@ public class PostService {
     private final static Function<Image, PostImage> CONVERT_TO_POST_IMAGE = image -> PostImage.builder().url(image.getUrl()).build();
     private final static Function<PostImage, Image> CONVERT_TO_IMAGE = postImage -> Image.builder().url(postImage.getUrl()).build();
 
-    private final static Function<Post, PostDto> CONVERT_TO_POST_DTO = post -> PostDto.builder()
+    public final static Function<Post, PostDto> CONVERT_TO_POST_DTO = post -> PostDto.builder()
             .content(post.getContent())
             .posterId(post.getPosterId().toString())
             .title(post.getTitle())

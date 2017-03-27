@@ -85,7 +85,9 @@ public class PostResource {
                 .path("/{id}")
                 .buildAndExpand(post.getId()).toUri());
 
-        return new ResponseEntity<>(post, headers, HttpStatus.CREATED);
+        final PostDto postDto = PostService.CONVERT_TO_POST_DTO.apply(post);
+
+        return new ResponseEntity<>(postDto, headers, HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Retrieve all posts.", response = PostDto.class, responseContainer = "List", produces = POST_MEDIA_TYPE)
