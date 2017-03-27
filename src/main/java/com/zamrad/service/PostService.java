@@ -5,6 +5,7 @@ import com.zamrad.domain.posts.PostImage;
 import com.zamrad.domain.profiles.Profile;
 import com.zamrad.dto.Image;
 import com.zamrad.dto.posts.NewPostDto;
+import com.zamrad.dto.posts.PostDto;
 import com.zamrad.repository.PostRepository;
 import com.zamrad.service.artist.ArtistProfileNotFoundException;
 import com.zamrad.service.artist.ProfileService;
@@ -15,9 +16,11 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Function;
 
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 @Component
@@ -30,6 +33,16 @@ public class PostService {
             .link(newPostDto.getLink());
 
     private final static Function<Image, PostImage> CONVERT_TO_POST_IMAGE = image -> PostImage.builder().url(image.getUrl()).build();
+    private final static Function<PostImage, Image> CONVERT_TO_IMAGE = postImage -> Image.builder().url(postImage.getUrl()).build();
+
+    private final static Function<Post, PostDto> CONVERT_TO_POST_DTO = post -> PostDto.builder()
+            .content(post.getContent())
+            .posterId(post.getPosterId().toString())
+            .title(post.getTitle())
+            .createdDateTime(post.getDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+            .images(post.getImages().stream().map(CONVERT_TO_IMAGE).collect(toList()))
+            .link(post.getLink())
+            .build();
 
     @Autowired
     private ProfilePhotoService profilePhotoService;
@@ -65,12 +78,12 @@ public class PostService {
         return post;
     }
 
-    public Post getPost(UUID postId) {
-        return postRepository.getOne(postId);
+    public PostDto getPost(UUID postId) {
+        return CONVERT_TO_POST_DTO.apply(postRepository.getOne(postId));
     }
 
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
+    public List<PostDto> getAllPosts() {
+        return postRepository.findAll().stream().map(CONVERT_TO_POST_DTO).collect(toList());
     }
 
     private Profile getPosterProfile(Long socialId) {

@@ -49,8 +49,8 @@ public class PostResource {
     })
     @RequestMapping(value = "/{postId}", method = RequestMethod.GET, produces = POST_MEDIA_TYPE)
     @ApiImplicitParam(name = "Authorization", value = "Bearer token", dataType = "string", paramType = "header")
-    public ResponseEntity<Post> getPost(@PathVariable("postId") UUID postId, @ApiIgnore final Principal principal) {
-        Post post;
+    public ResponseEntity<PostDto> getPost(@PathVariable("postId") UUID postId, @ApiIgnore final Principal principal) {
+        PostDto post;
         try {
             post = postService.getPost(postId);
         } catch (PostNotFoundException exception) {
@@ -96,7 +96,7 @@ public class PostResource {
     @RequestMapping(method = RequestMethod.GET, produces = POST_MEDIA_TYPE)
     @ApiImplicitParam(name = "Authorization", value = "Bearer token", dataType = "string", paramType = "header")
     public ResponseEntity<?> getAllPosts(@ApiIgnore final Principal principal) {
-        List<Post> allPosts;
+        List<PostDto> allPosts;
         try {
             allPosts = postService.getAllPosts();
         } catch (PostNotFoundException exception) {
