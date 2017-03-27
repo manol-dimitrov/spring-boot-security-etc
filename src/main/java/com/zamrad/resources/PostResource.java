@@ -1,5 +1,6 @@
 package com.zamrad.resources;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zamrad.domain.posts.Post;
 import com.zamrad.dto.posts.NewPostDto;
 import com.zamrad.dto.posts.PostDto;
@@ -66,12 +67,13 @@ public class PostResource {
     })
     @RequestMapping(method = RequestMethod.POST, produces = POST_MEDIA_TYPE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ApiImplicitParam(name = "Authorization", value = "Bearer token", dataType = "string", paramType = "header")
-    public ResponseEntity<?> createPost(@RequestPart(value = "images", required = false) MultipartFile[] photos,
-                                        @RequestPart(value = "post") NewPostDto newPost,
+    public ResponseEntity<?> createPost(@RequestParam(value = "images", required = false) MultipartFile[] photos,
+                                        @RequestParam(value = "post") String newPost,
                                         @ApiIgnore final Principal principal) {
         final Post post;
         try {
-            post = postService.createPost(newPost, photos, getUserSocialId());
+            final NewPostDto newPostDto = new ObjectMapper().readValue(newPost, NewPostDto.class);
+            post = postService.createPost(newPostDto, photos, getUserSocialId());
         } catch (Exception ex) {
             String error = String.format("{\"message\": \"%s\"}", ex.toString());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
