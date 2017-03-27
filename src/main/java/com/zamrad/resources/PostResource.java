@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,10 +64,10 @@ public class PostResource {
             @ApiResponse(code = 403, message = "The operation cannot be fulfilled with the provided credentials/request body."),
             @ApiResponse(code = 400, message = "The request body contains invalid fields.")
     })
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, produces = POST_MEDIA_TYPE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ApiImplicitParam(name = "Authorization", value = "Bearer token", dataType = "string", paramType = "header")
-    public ResponseEntity<?> createPost(@RequestPart(value = "images", required = false) MultipartFile[] photos,
-                                        @RequestPart(value = "post") NewPostDto newPost,
+    public ResponseEntity<?> createPost(@RequestParam(value = "images", required = false) MultipartFile[] photos,
+                                        @RequestParam(value = "post") NewPostDto newPost,
                                         @ApiIgnore final Principal principal) {
         final Post post;
         try {
