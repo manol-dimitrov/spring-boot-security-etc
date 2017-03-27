@@ -48,7 +48,7 @@ public class PostService {
 
         final List<List<Image>> uploadMultiplePhotos;
         final Set<Image> imageList;
-        final Set<PostImage> postImages;
+        Set<PostImage> postImages = new HashSet<>();
 
         if (!CollectionUtils.isEmpty(Arrays.asList(images))) {
             uploadMultiplePhotos = profilePhotoService.uploadImages(images);
@@ -59,7 +59,10 @@ public class PostService {
             postBuilder.images(postImages);
         }
 
-        return postRepository.save(postBuilder.build());
+        final Post post = postRepository.save(postBuilder.build());
+        if(!postImages.isEmpty()) postImages.forEach(postImage -> postImage.setPost(post));
+
+        return post;
     }
 
     public Post getPost(UUID postId) {
