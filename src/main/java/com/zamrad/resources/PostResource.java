@@ -66,8 +66,8 @@ public class PostResource {
     })
     @RequestMapping(method = RequestMethod.POST, produces = POST_MEDIA_TYPE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ApiImplicitParam(name = "Authorization", value = "Bearer token", dataType = "string", paramType = "header")
-    public ResponseEntity<?> createPost(@RequestParam(value = "images", required = false) MultipartFile[] photos,
-                                        @RequestParam(value = "post") NewPostDto newPost,
+    public ResponseEntity<?> createPost(@RequestPart(value = "images", required = false) MultipartFile[] photos,
+                                        @RequestPart(value = "post") NewPostDto newPost,
                                         @ApiIgnore final Principal principal) {
         final Post post;
         try {
