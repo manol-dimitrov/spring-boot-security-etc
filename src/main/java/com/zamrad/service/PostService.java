@@ -37,7 +37,9 @@ public class PostService {
 
     private final static Function<Post, PostDto> CONVERT_TO_POST_DTO = post -> {
         final PostDto.PostDtoBuilder postDtoBuilder = PostDto.builder()
+                .id(post.getId().toString())
                 .content(post.getContent())
+                .type(post.getType())
                 .posterId(post.getPosterId().toString())
                 .title(post.getTitle())
                 .createdDateTime(post.getDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))

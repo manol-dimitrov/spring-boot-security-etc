@@ -22,6 +22,8 @@ public class PostDto {
     @JsonProperty
     private String content;
     @JsonProperty
+    private String type;
+    @JsonProperty
     private String title;
     @JsonProperty
     private String createdDateTime;

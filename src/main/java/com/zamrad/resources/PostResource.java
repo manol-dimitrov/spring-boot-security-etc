@@ -39,14 +39,6 @@ public class PostResource {
     private static final String POST_MEDIA_TYPE = "application/json; charset=UTF-8";
 
     private final static Function<PostImage, Image> CONVERT_TO_IMAGE = postImage -> Image.builder().url(postImage.getUrl()).build();
-    private final static Function<Post, PostDto> CONVERT_TO_POST_DTO = post -> PostDto.builder()
-            .content(post.getContent())
-            .posterId(post.getPosterId().toString())
-            .title(post.getTitle())
-            .createdDateTime(post.getDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
-            .images(post.getImages().stream().map(CONVERT_TO_IMAGE).collect(toList()))
-            .link(post.getLink())
-            .build();
 
 
     @Autowired
