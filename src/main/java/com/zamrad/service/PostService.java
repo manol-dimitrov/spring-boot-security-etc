@@ -80,8 +80,10 @@ public class PostService {
             postBuilder.images(postImages);
         }
 
-        final Post post = postRepository.save(postBuilder.build());
+        final Post post = postBuilder.build();
         if (!postImages.isEmpty()) postImages.forEach(postImage -> postImage.setPost(post));
+
+        postRepository.save(post);
 
         return CONVERT_TO_POST_DTO.apply(post);
     }
