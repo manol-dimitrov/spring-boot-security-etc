@@ -87,7 +87,7 @@ public class PostResource {
     public ResponseEntity<?> createPost(@RequestParam(value = "images", required = false) MultipartFile[] photos,
                                         @RequestParam(value = "post") String newPost,
                                         @ApiIgnore final Principal principal) {
-        final Post post;
+        final PostDto post;
         try {
             final NewPostDto newPostDto = new ObjectMapper().readValue(newPost, NewPostDto.class);
             post = postService.createPost(newPostDto, photos, getUserSocialId());
@@ -102,7 +102,7 @@ public class PostResource {
                 .path("/{id}")
                 .buildAndExpand(post.getId()).toUri());
 
-        return new ResponseEntity<>(CONVERT_TO_POST_DTO.apply(post), headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(post, headers, HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Retrieve all posts.", response = PostDto.class, responseContainer = "List", produces = POST_MEDIA_TYPE)

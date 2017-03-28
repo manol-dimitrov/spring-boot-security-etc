@@ -35,14 +35,20 @@ public class PostService {
     private final static Function<Image, PostImage> CONVERT_TO_POST_IMAGE = image -> PostImage.builder().url(image.getUrl()).build();
     private final static Function<PostImage, Image> CONVERT_TO_IMAGE = postImage -> Image.builder().url(postImage.getUrl()).build();
 
-    private final static Function<Post, PostDto> CONVERT_TO_POST_DTO = post -> PostDto.builder()
-            .content(post.getContent())
-            .posterId(post.getPosterId().toString())
-            .title(post.getTitle())
-            .createdDateTime(post.getDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
-            .images(post.getImages().stream().map(CONVERT_TO_IMAGE).collect(toList()))
-            .link(post.getLink())
-            .build();
+    private final static Function<Post, PostDto> CONVERT_TO_POST_DTO = post -> {
+        final PostDto.PostDtoBuilder postDtoBuilder = PostDto.builder()
+                .content(post.getContent())
+                .posterId(post.getPosterId().toString())
+                .title(post.getTitle())
+                .createdDateTime(post.getDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+                .link(post.getLink());
+
+        if (post.getImages() != null) {
+            return postDtoBuilder.images(post.getImages().stream().map(CONVERT_TO_IMAGE).collect(toList())).build();
+        } else {
+            return postDtoBuilder.build();
+        }
+    };
 
     @Autowired
     private ProfilePhotoService profilePhotoService;
@@ -53,7 +59,7 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
-    public Post createPost(NewPostDto newPost, MultipartFile[] images, Long socialId) {
+    public PostDto createPost(NewPostDto newPost, MultipartFile[] images, Long socialId) {
         final Post.PostBuilder postBuilder = CONVERT_TO_POST.apply(newPost);
 
         final UUID posterId = getPosterProfile(socialId).getId();
@@ -73,9 +79,9 @@ public class PostService {
         }
 
         final Post post = postRepository.save(postBuilder.build());
-        if(!postImages.isEmpty()) postImages.forEach(postImage -> postImage.setPost(post));
+        if (!postImages.isEmpty()) postImages.forEach(postImage -> postImage.setPost(post));
 
-        return post;
+        return CONVERT_TO_POST_DTO.apply(post);
     }
 
     public PostDto getPost(UUID postId) {
