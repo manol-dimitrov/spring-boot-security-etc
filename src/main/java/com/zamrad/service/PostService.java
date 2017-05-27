@@ -6,7 +6,7 @@ import com.zamrad.domain.profiles.Profile;
 import com.zamrad.dto.Image;
 import com.zamrad.dto.posts.NewPostDto;
 import com.zamrad.dto.posts.PostDto;
-import com.zamrad.repository.PostRepository;
+import com.zamrad.repositories.PostRepository;
 import com.zamrad.service.artist.ArtistProfileNotFoundException;
 import com.zamrad.service.artist.ProfileService;
 import com.zamrad.service.photos.ProfilePhotoService;

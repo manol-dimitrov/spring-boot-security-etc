@@ -1,7 +1,6 @@
-package com.zamrad.repository;
+package com.zamrad.repositories;
 
 import com.zamrad.domain.profiles.Profile;
-import com.zamrad.domain.events.Event;
 import com.zamrad.domain.events.EventSlot;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,13 +11,11 @@ import java.util.UUID;
 
 @Repository
 @Transactional
-public interface EventRepository extends JpaRepository<Event, UUID> {
+public interface EventSlotRepository extends JpaRepository<EventSlot, UUID> {
     /**
-     * Retrieves the event to which the eventslot is associated
-     * @param eventSlot
+     * Retrieves a list of event slots artist has pitched for
+     * @param profile
      * @return
      */
-    Event findByEventSlots(EventSlot eventSlot);
-
-    List<Event> findByProfile(Profile profile);
+    List<EventSlot> findByPitchers(Profile profile);
 }

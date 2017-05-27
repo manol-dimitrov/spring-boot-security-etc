@@ -39,7 +39,6 @@ public class ProfilePhotoResource {
 
     private static final int MAXIMUM_UPLOAD_CONTENT_LENGTH = 4_194_304;
 
-
     @Autowired
     private ProfilePhotoService profilePhotoService;
 

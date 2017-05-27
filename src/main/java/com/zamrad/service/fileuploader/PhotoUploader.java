@@ -24,13 +24,11 @@ import static com.zamrad.service.photos.PhotoUtils.createMetadata;
 public class PhotoUploader {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhotoUploader.class);
 
-    private final AmazonS3Template amazonS3Template;
     private static final String BUCKET = "zamrad-photos-dev";
     private final AmazonS3 amazonS3;
 
     @Autowired
     public PhotoUploader(AmazonS3Template amazonS3Template) {
-        this.amazonS3Template = amazonS3Template;
         amazonS3 = amazonS3Template.getAmazonS3Client();
     }
 

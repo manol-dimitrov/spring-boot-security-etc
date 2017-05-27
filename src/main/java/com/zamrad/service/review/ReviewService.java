@@ -3,8 +3,8 @@ package com.zamrad.service.review;
 import com.zamrad.domain.profiles.Profile;
 import com.zamrad.domain.reviews.Review;
 import com.zamrad.dto.profiles.NewReviewDto;
-import com.zamrad.repository.ProfileRepository;
-import com.zamrad.repository.ReviewRepository;
+import com.zamrad.repositories.ProfileRepository;
+import com.zamrad.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

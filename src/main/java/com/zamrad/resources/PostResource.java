@@ -1,7 +1,6 @@
 package com.zamrad.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zamrad.domain.posts.Post;
 import com.zamrad.domain.posts.PostImage;
 import com.zamrad.dto.Image;
 import com.zamrad.dto.posts.NewPostDto;
@@ -22,14 +21,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.security.Principal;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Function;
-
-import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/posts/v1")

@@ -1,4 +1,4 @@
-package com.zamrad.repository;
+package com.zamrad.repositories;
 
 import com.zamrad.domain.reviews.Review;
 import org.springframework.data.jpa.repository.JpaRepository;

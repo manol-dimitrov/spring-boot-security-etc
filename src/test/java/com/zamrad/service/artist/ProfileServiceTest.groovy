@@ -4,8 +4,8 @@ import com.google.common.collect.Sets
 import com.zamrad.domain.profiles.Genre
 import com.zamrad.domain.profiles.Profile
 import com.zamrad.dto.profiles.UpdateProfileDto
-import com.zamrad.repository.ProfileRepository
-import com.zamrad.repository.GenreRepository
+import com.zamrad.repositories.ProfileRepository
+import com.zamrad.repositories.GenreRepository
 import spock.lang.Ignore
 import spock.lang.Specification
 

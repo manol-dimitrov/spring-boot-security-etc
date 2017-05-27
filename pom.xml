@@ -59,6 +59,22 @@
             <version>1.11.83</version>
         </dependency>
 
+        <!--ES REST Client-->
+
+        <dependency>
+            <groupId>io.searchbox</groupId>
+            <artifactId>jest</artifactId>
+            <version>5.3.2</version>
+        </dependency>
+
+        <!--ES Request Signer-->
+
+        <dependency>
+            <groupId>vc.inreach.aws</groupId>
+            <artifactId>aws-signing-request-interceptor</artifactId>
+            <version>0.0.16</version>
+        </dependency>
+
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>

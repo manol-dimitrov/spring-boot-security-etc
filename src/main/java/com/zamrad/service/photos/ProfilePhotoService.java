@@ -4,14 +4,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.net.MediaType;
 import com.zamrad.domain.profiles.Profile;
 import com.zamrad.dto.Image;
-import com.zamrad.repository.ProfileRepository;
+import com.zamrad.repositories.ProfileRepository;
 import com.zamrad.service.fileuploader.PhotoUploader;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

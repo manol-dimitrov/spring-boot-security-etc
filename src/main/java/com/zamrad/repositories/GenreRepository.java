@@ -1,4 +1,4 @@
-package com.zamrad.repository;
+package com.zamrad.repositories;
 
 import com.zamrad.domain.profiles.Genre;
 import org.springframework.data.jpa.repository.JpaRepository;
