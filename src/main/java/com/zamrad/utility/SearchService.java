@@ -5,6 +5,7 @@ import com.google.common.base.Supplier;
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestClientFactory;
 import io.searchbox.client.JestResult;
+import io.searchbox.client.config.HttpClientConfig;
 import io.searchbox.indices.CreateIndex;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
@@ -45,6 +46,11 @@ public class SearchService {
                 return builder;
             }
         };
+
+        factory.setHttpClientConfig(new HttpClientConfig
+                .Builder("https://search-zamrad-jdwo2kp5xjwpn332mw36pjoouy.eu-west-1.es.amazonaws.com")
+                .multiThreaded(true)
+                .build());
 
         client = factory.getObject();
     }
