@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.zamrad.domain.reviews.Review;
+import io.searchbox.annotations.JestId;
+import io.searchbox.annotations.JestVersion;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -96,6 +98,13 @@ public class Profile {
 
     @Column(name = "average_rating")
     private Double averageRating;
+
+    //es indexing annotations
+    @JestId
+    private String documentId;
+
+    @JestVersion
+    private Long documentVersion;
 
     @Tolerate
     public Profile() {
