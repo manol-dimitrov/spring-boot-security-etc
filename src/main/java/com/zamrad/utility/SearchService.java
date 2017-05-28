@@ -2,6 +2,7 @@ package com.zamrad.utility;
 
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.google.common.base.Supplier;
+import com.google.common.base.Throwables;
 import com.zamrad.domain.profiles.Profile;
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestClientFactory;
@@ -20,7 +21,6 @@ import vc.inreach.aws.request.AWSSigningRequestInterceptor;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.UUID;
 
 @Component
 public class SearchService {
@@ -63,15 +63,9 @@ public class SearchService {
             final JestResult profiles = client.execute(new CreateIndex.Builder("profiles").build());
             LOGGER.info("Result of cluster creation is: {}", profiles.getJsonString());
 
-            put(Profile.builder().firstName("Manol").id(UUID.randomUUID()));
-            put(Profile.builder().firstName("Adam").id(UUID.randomUUID()));
-            put(Profile.builder().firstName("Josh").id(UUID.randomUUID()));
-            put(Profile.builder().firstName("Dave").id(UUID.randomUUID()));
-            put(Profile.builder().firstName("Chris").id(UUID.randomUUID()));
-            put(Profile.builder().firstName("Jack").id(UUID.randomUUID()));
-
+            put(Profile.builder().firstName("Manol"));
         } catch (IOException e) {
-            throw new RuntimeException("Failed to create index: ", e);
+            Throwables.propagate(e);
         }
     }
 
@@ -80,7 +74,7 @@ public class SearchService {
         try {
             client.execute(index);
         } catch (IOException e) {
-            throw new RuntimeException("Failed to index entry: ", e);
+            Throwables.propagate(e);
         }
     }
 

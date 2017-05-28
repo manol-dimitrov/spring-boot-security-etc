@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.zamrad.domain.reviews.Review;
-import com.zamrad.domain.payments.StripeCustomer;
-import io.searchbox.annotations.JestId;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -49,7 +47,6 @@ public class Profile {
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
-    @JestId
     private UUID id;
 
     @Column(name = "first_name")
