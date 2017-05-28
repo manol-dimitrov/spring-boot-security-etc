@@ -21,6 +21,7 @@ import vc.inreach.aws.request.AWSSigningRequestInterceptor;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.UUID;
 
 @Component
 public class SearchService {
@@ -59,18 +60,19 @@ public class SearchService {
     }
 
     public void loadAllData() {
-        try {
-            final JestResult profiles = client.execute(new CreateIndex.Builder("profiles").build());
-            LOGGER.info("Result of cluster creation is: {}", profiles.getJsonString());
+        put(Profile.builder().firstName("Manol").secondName("Dimitrov").bio("rock star"));
+        put(Profile.builder().firstName("Alex").secondName("Buck").bio("hip hop rapper star"));
+        put(Profile.builder().firstName("Josh").secondName("King").bio("indie rock star"));
+        put(Profile.builder().firstName("Dave").secondName("Jackson").bio("drum and bass, d & b"));
+    }
 
-            put(Profile.builder().firstName("Manol"));
-        } catch (IOException e) {
-            Throwables.propagate(e);
-        }
+    private void createIndex() throws IOException {
+        final JestResult profiles = client.execute(new CreateIndex.Builder("profiles").build());
+        LOGGER.info("Result of cluster creation is: {}", profiles.getJsonString());
     }
 
     public void put(Object source) {
-        Index index = new Index.Builder(source).index("profiles").build();
+        Index index = new Index.Builder(source).index("profiles").id(UUID.randomUUID().toString()).build();
         try {
             client.execute(index);
         } catch (IOException e) {

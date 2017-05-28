@@ -99,10 +99,6 @@ public class Profile {
     @Column(name = "average_rating")
     private Double averageRating;
 
-    //es indexing annotations
-    @JestId
-    private String documentId;
-
     @JestVersion
     private Long documentVersion;
 
