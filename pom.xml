@@ -70,6 +70,12 @@
         <!--ES Request Signer-->
 
         <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>transport</artifactId>
+            <version>5.4.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>vc.inreach.aws</groupId>
             <artifactId>aws-signing-request-interceptor</artifactId>
             <version>0.0.16</version>

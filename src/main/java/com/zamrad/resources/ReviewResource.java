@@ -27,8 +27,12 @@ public class ReviewResource {
     private static final Logger LOGGER = LoggerFactory.getLogger(ReviewResource.class);
     private static final String REVIEW_MEDIA_TYPE = "application/json; charset=UTF-8";
 
+    private final ReviewService reviewService;
+
     @Autowired
-    private ReviewService reviewService;
+    public ReviewResource(ReviewService reviewService) {
+        this.reviewService = reviewService;
+    }
 
     @ApiOperation(value = "Retrieve a review for an artist by id.", response = Review.class, produces = REVIEW_MEDIA_TYPE)
     @ApiResponses(value = {
